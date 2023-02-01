@@ -73,8 +73,9 @@ public class Point2d extends AbstractPoint {
      * @return Rotated point
      */
     public Point2d rotate(Double angle) {
-        vector[X] = vector[X] * cos(angle)  +  vector[Y] * sin(angle);
-        vector[Y] = - vector[X] * sin(angle)  +  vector[Y] * cos(angle);
+        Double temp = vector[X];
+        vector[X] = vector[X] * cos(angle)  -  vector[Y] * sin(angle);
+        vector[Y] =  temp * sin(angle)  +  vector[Y] * cos(angle);
         return this;
     }
 
@@ -85,7 +86,9 @@ public class Point2d extends AbstractPoint {
      */
     @Override
     public Point2d divide(Double divider) {
-        return null;
+        vector[X] /= divider;
+        vector[Y] /= divider;
+        return this;
     }
 
     /** TODO
@@ -95,7 +98,9 @@ public class Point2d extends AbstractPoint {
      */
     @Override
     public Point2d multiply(Double multiplier) {
-        return null;
+        vector[X] *= multiplier;
+        vector[Y] *= multiplier;
+        return this;
     }
 
     /** TODO
@@ -105,7 +110,9 @@ public class Point2d extends AbstractPoint {
      */
     @Override
     public Point2d add(Double adder) {
-        return null;
+        vector[X] += adder;
+        vector[Y] += adder;
+        return this;
     }
 
     /** TODO
@@ -113,6 +120,7 @@ public class Point2d extends AbstractPoint {
      */
     @Override
     public Point2d clone() {
-        return null;
+
+        return new Point2d(vector[X], vector[Y]) ;
     }
 }

@@ -6,6 +6,7 @@ public class Square extends Rectangle {
      * @param size The size of the sides of the square
      */
     public Square(Double size) {
-        super(0.0, 0.0);
+        super(size,size);
+
     }
 }

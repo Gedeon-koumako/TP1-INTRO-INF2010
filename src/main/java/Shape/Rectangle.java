@@ -11,7 +11,11 @@ public class Rectangle extends BaseShape {
      * @param height Height of the rectangle
      */
     public Rectangle(Double width, Double height) {
-
+        for(Double i = -width/2; i <= width/2;i +=0.5){
+            for(Double j = -height/2; j <= height/2;j +=0.5){
+                this.add(new Point2d(i,j));
+            }
+        }
     }
 
     /** TODO
@@ -19,7 +23,7 @@ public class Rectangle extends BaseShape {
      * @param dimensions 2D point containing the width and height of the rectangle
      */
     public Rectangle(Point2d dimensions) {
-
+        this(dimensions.X(), dimensions.Y());
     }
 
     /**
@@ -37,7 +41,12 @@ public class Rectangle extends BaseShape {
      */
     @Override
     public Rectangle translate(Point2d point) {
-        return null;
+        Collection<Point2d > temp = this.getCoords();
+        this.removeAll(temp);
+        for( Point2d i : temp){
+            this.add(i.translate(point));
+        }
+        return this;
     }
 
     /** TODO
@@ -47,7 +56,12 @@ public class Rectangle extends BaseShape {
      */
     @Override
     public Rectangle rotate(Double angle) {
-        return null;
+        Collection<Point2d > temp = this.getCoords();
+        this.removeAll(temp);
+        for( Point2d i : temp){
+            this.add(i.rotate(angle));
+        }
+        return this;
     }
 
     /** TODO
@@ -55,6 +69,6 @@ public class Rectangle extends BaseShape {
      */
     @Override
     public Rectangle clone() {
-        return null;
+        return new Rectangle(this.getCoords());
     }
 }

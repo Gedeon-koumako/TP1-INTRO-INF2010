@@ -17,7 +17,12 @@ public final class LetterFactory {
      * @return BaseShape containing the letter T
      */
     public static BaseShape create_T() {
-        return null;
+        Rectangle createT1 = new Rectangle(60.0,16.0);
+        Rectangle createT2 = new Rectangle(16.0, 120.0);
+        Point2d translationPoint = new Point2d(0.0, createT2.getMaxCoord().Y()/2);
+        createT1.translate(translationPoint);
+
+        return createT1.add(createT2);
     }
 
     /** TODO
@@ -25,7 +30,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter E
      */
     public static BaseShape create_E() {
-        return null;
+        return new BaseShape();
     }
 
     /** TODO
@@ -33,7 +38,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter O
      */
     public static BaseShape create_O() {
-        return null;
+        return new BaseShape();
     }
 
     /** TODO
@@ -41,7 +46,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter C
      */
     public static BaseShape create_C() {
-        return null;
+        return new BaseShape();
     }
 
     /** TODO
@@ -49,7 +54,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter A
      */
     public static BaseShape create_A() {
-        return null;
+        return new BaseShape();
     }
 
     /** TODO
@@ -57,7 +62,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter V
      */
     public static BaseShape create_V() {
-        return null;
+        return new BaseShape();
     }
 
     /** TODO
@@ -65,7 +70,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter N
      */
     public static BaseShape create_N() {
-        return null;
+        return new BaseShape();
     }
 
     /** TODO
@@ -73,7 +78,7 @@ public final class LetterFactory {
      * @return BaseShape containing the letter M
      */
     public static BaseShape create_M() {
-        return null;
+        return new BaseShape();
     }
 
 }
