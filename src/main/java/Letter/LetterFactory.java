@@ -11,24 +11,34 @@ public final class LetterFactory {
     final static Double stripeThickness = maxHeight / 8;
     final static Double halfStripeThickness = stripeThickness / 2;
 
-    final static double hauteurBarVertical = 120;
-    final static double largeurBarVertical = 16;
-    final static double hauteurBarHorizontal = 16;
-    final static double largeurBarHorizontal = 60;
-    final static double hauteurBarOblique = 120;
-    final static double largeurBarOblique = 10;
+    final static double barVerticalHeight = 120;
+    final static double barVerticalWidth = 16;
+    final static double barHorizontalHeight = 16;
+    final static double barHorizontalWidth = 60;
+    final static double ObliqueBarHeight = 120;
+    final static double ObliqueBarWidth = 10;
+
+
+    public static Rectangle newBarHorizontal() {
+        return new Rectangle(barHorizontalWidth, barHorizontalHeight);
+    }
+    public static Rectangle newBarVertical() {
+        return new Rectangle(barVerticalWidth, barVerticalHeight);
+    }
+
+    public static Rectangle newBarOblique(Rectangle obliqueBar, Double angle){
+        return obliqueBar.rotate(angle);
+    }
 
     /** TODO
      * Create the letter T graphically
      * @return BaseShape containing the letter T
      */
     public static BaseShape create_T() {
-        Rectangle createT1 = new Rectangle(60.0,16.0);
-        Rectangle createT2 = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        createT1.translate(new Point2d(0.0, -50.));
-
-        return createT2.add(createT1);
-        //return createT2;
+        Rectangle barHorizontal = newBarHorizontal();
+        Rectangle barVertical = newBarVertical();
+        barHorizontal.translate(new Point2d(0.0, -50.));
+        return barVertical.add(barHorizontal);
     }
 
     /** TODO
@@ -37,15 +47,15 @@ public final class LetterFactory {
      */
     public static BaseShape create_E() {
 
-        Rectangle barVertical = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVertical.translate(new Point2d(-(largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        Rectangle barHorizontalHaut = new Rectangle(largeurBarHorizontal,hauteurBarHorizontal);
-        barHorizontalHaut.translate(new Point2d(0.0, - (hauteurBarVertical/2 - hauteurBarHorizontal/2)));
+        Rectangle barVertical = newBarVertical();
+        barVertical.translate(new Point2d(-(barHorizontalWidth /2 - barVerticalWidth /2), 0.));
+        Rectangle barHorizontalHaut = newBarHorizontal();
+        barHorizontalHaut.translate(new Point2d(0.0, - (barVerticalHeight /2 - barHorizontalHeight /2)));
         barVertical.add(barHorizontalHaut);
-        Rectangle barHorizontalMilieu = new Rectangle(largeurBarHorizontal,hauteurBarHorizontal);
+        Rectangle barHorizontalMilieu = newBarHorizontal();
         barVertical.add(barHorizontalMilieu);
-        Rectangle barHorizontalBas = new Rectangle(largeurBarHorizontal,hauteurBarHorizontal);
-        barHorizontalBas.translate(new Point2d(0.0,  hauteurBarVertical/2 - hauteurBarHorizontal/2 ));
+        Rectangle barHorizontalBas = newBarHorizontal();
+        barHorizontalBas.translate(new Point2d(0.0,  barVerticalHeight /2 - barHorizontalHeight /2 ));
         barVertical.add(barHorizontalBas);
         return barVertical;
     }
@@ -57,8 +67,6 @@ public final class LetterFactory {
     public static BaseShape create_O() {
         Ellipse fullEllipse = new Ellipse(60.0,130.0);
         Ellipse halfEllipse = new Ellipse(40.0,(130.0 *2)/3);
-
-
         return fullEllipse.remove(halfEllipse);
     }
 
@@ -67,13 +75,10 @@ public final class LetterFactory {
      * @return BaseShape containing the letter C
      */
     public static BaseShape create_C() {
-        Ellipse fullEllipse = new Ellipse(60.0,130.0);
-        Ellipse halfEllipse = new Ellipse(40.0,(130.0 *2)/3);
-        fullEllipse.remove(halfEllipse);
-        Rectangle barHorizontalMilieu = new Rectangle(largeurBarHorizontal,hauteurBarHorizontal);
-        barHorizontalMilieu.rotate(Math.PI / 2);
-        barHorizontalMilieu.translate(new Point2d((largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        return fullEllipse.remove(barHorizontalMilieu);
+        BaseShape OEllipse = create_O();
+        Rectangle barHorizontalMilieu = newBarOblique(newBarHorizontal(),Math.PI / 2);
+        barHorizontalMilieu.translate(new Point2d((barHorizontalWidth /2 - barVerticalWidth /2), 0.));
+        return OEllipse.remove(barHorizontalMilieu);
     }
 
     /** TODO
@@ -81,16 +86,16 @@ public final class LetterFactory {
      * @return BaseShape containing the letter A
      */
     public static BaseShape create_A() {
-        Rectangle createT1 = new Rectangle(60.0,16.0);
+        Rectangle createT1 = newBarHorizontal();
         createT1.translate(new Point2d(0.,30.));
-        Rectangle barVerticalGauche = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalGauche.translate(new Point2d(-(largeurBarHorizontal/2.5 - largeurBarVertical/2), 0.));
-        barVerticalGauche.rotate(Math.PI /12);
-        Rectangle barVerticalDroite = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalDroite.translate(new Point2d((largeurBarHorizontal/2.5 - largeurBarVertical/2), 0.));
-        barVerticalDroite.rotate( -Math.PI / 12);
+        Rectangle leftVerticalBar = newBarVertical();
+        leftVerticalBar.translate(new Point2d(-(barHorizontalWidth /2.5 - barVerticalWidth /2), 0.));
+        leftVerticalBar.rotate(Math.PI /12);
+        Rectangle rightVerticalBar = newBarVertical();
+        rightVerticalBar.translate(new Point2d((barHorizontalWidth /2.5 - barVerticalWidth /2), 0.));
+        rightVerticalBar.rotate( -Math.PI / 12);
 
-        return createT1.add(barVerticalDroite.add(barVerticalGauche));
+        return createT1.add(rightVerticalBar.add(leftVerticalBar));
     }
 
     /** TODO
@@ -98,14 +103,11 @@ public final class LetterFactory {
      * @return BaseShape containing the letter V
      */
     public static BaseShape create_V() {
-        Rectangle barVerticalGauche = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalGauche.translate(new Point2d(-(largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        barVerticalGauche.rotate(-Math.PI /9);
-        Rectangle barVerticalDroite = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalDroite.translate(new Point2d((largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        barVerticalDroite.rotate( Math.PI / 9);
-
-        return barVerticalDroite.add(barVerticalGauche);
+        Rectangle leftVerticalBar = newBarOblique(newBarVertical(),-Math.PI /9);
+        leftVerticalBar.translate(new Point2d(-(barHorizontalWidth /2 - barVerticalWidth /1.5), 0.));
+        Rectangle rightVerticalBar = newBarOblique(newBarVertical(),Math.PI /9);
+        rightVerticalBar.translate(new Point2d((barHorizontalWidth /2 - barVerticalWidth /1.5), 0.));
+        return rightVerticalBar.add(leftVerticalBar);
     }
 
     /** TODO
@@ -113,15 +115,13 @@ public final class LetterFactory {
      * @return BaseShape containing the letter N
      */
     public static BaseShape create_N() {
-        Rectangle barVerticalGauche = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalGauche.translate(new Point2d(-(largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        Rectangle barVerticalDroite = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalDroite.translate(new Point2d((largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        Rectangle barOblique = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barOblique.rotate(-Math.PI / 12);
-        barVerticalDroite.add(barOblique);
-
-        return barVerticalDroite.add(barVerticalGauche);
+        Rectangle leftVerticalBar = newBarVertical();
+        leftVerticalBar.translate(new Point2d(-(barHorizontalWidth /2 - barVerticalWidth /2), 0.));
+        Rectangle rightVerticalBar = newBarVertical();
+        rightVerticalBar.translate(new Point2d((barHorizontalWidth /2 - barVerticalWidth /2), 0.));
+        Rectangle barOblique = newBarOblique(newBarVertical(),-Math.PI / 12);
+        rightVerticalBar.add(barOblique);
+        return rightVerticalBar.add(leftVerticalBar);
     }
 
     /** TODO
@@ -129,28 +129,18 @@ public final class LetterFactory {
      * @return BaseShape containing the letter M
      */
     public static BaseShape create_M() {
-        Rectangle barVerticalGauche = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalGauche.translate(new Point2d(-(largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        Rectangle barVerticalDroite = new Rectangle(largeurBarVertical, hauteurBarVertical);
-        barVerticalDroite.translate(new Point2d((largeurBarHorizontal/2 - largeurBarVertical/2), 0.));
-        barVerticalDroite.add(barVerticalGauche);
-        Rectangle barObliqueGauche = new Rectangle(largeurBarOblique/4, hauteurBarOblique);
-        barObliqueGauche.rotate(-Math.PI / 20);
-        Rectangle barObliqueDroite = new Rectangle(largeurBarOblique/4, hauteurBarOblique);
-        barObliqueDroite.rotate(Math.PI / 20);
-        barObliqueGauche.translate(new Point2d(-10., 0.));
-        barObliqueDroite.translate(new Point2d(10., 0.));
-        barObliqueGauche.add(barObliqueDroite);
-
-        Rectangle miniBarVertical = new Rectangle(largeurBarHorizontal, (hauteurBarHorizontal*2)/3);
-        miniBarVertical.translate(new Point2d(  (hauteurBarVertical/2.5 - hauteurBarHorizontal), 0.0 ));
-        miniBarVertical.rotate(Math.PI/2);
-        //barObliqueGauche.remove(miniBarVertical);
-        //barObliqueGauche.remove(miniBarVertical);
-        barVerticalDroite.add(barObliqueGauche);
-        //barVerticalDroite.add(miniBarVertical);
-        //return barVerticalDroite.add(barVerticalGauche);
-        return barVerticalDroite;
+        Rectangle leftVerticalBar = newBarVertical();
+        leftVerticalBar.translate(new Point2d(-(barHorizontalWidth /2 - barVerticalWidth /3), 0.));
+        Rectangle rightVerticalBar = newBarVertical();
+        rightVerticalBar.translate(new Point2d((barHorizontalWidth /2 - barVerticalWidth /3), 0.));
+        rightVerticalBar.add(leftVerticalBar);
+        Rectangle leftObliqueBar = newBarOblique(new Rectangle(ObliqueBarWidth/4, ObliqueBarHeight),-Math.PI / 25 );
+        Rectangle rightObliqueBar = newBarOblique(new Rectangle(ObliqueBarWidth/4, ObliqueBarHeight),Math.PI / 25 );
+        leftObliqueBar.translate(new Point2d(-10., 0.));
+        rightObliqueBar.translate(new Point2d(10., 0.));
+        leftObliqueBar.add(rightObliqueBar);
+        rightVerticalBar.add(leftObliqueBar);
+        return rightVerticalBar;
     }
 
 }
